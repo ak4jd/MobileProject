@@ -3,6 +3,15 @@ import { Text, View, StyleSheet, Dimensions, Image, TouchableOpacity } from 'rea
 import { Constants, MapView, Location, Permissions } from 'expo';
 
 export default class AddNewEvent extends Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            mapRegion: null,
+            hasLocationPermissions: false,
+            locationResult: null
+        }
+    };
     static navigationOptions = {
         title:"DinDin",
         headerTitleStyle:{
@@ -15,14 +24,6 @@ export default class AddNewEvent extends Component {
         headerStyle: {
             paddingVertical:15,
         },
-        headerLeft: (
-            <View style={{
-                    margin:5,
-                    paddingHorizontal:5,
-                }}>
-                <Image source={require('../assets/back.png')} />
-            </View>
-        ),
         headerRight:(
             <View style={{
                 margin:5,
@@ -32,12 +33,6 @@ export default class AddNewEvent extends Component {
         )
     
     };
-    
-  state = {
-    mapRegion: null,
-    hasLocationPermissions: false,
-    locationResult: null
-  };
 
   componentDidMount() {
     this.getLocationAsync();
@@ -68,7 +63,12 @@ export default class AddNewEvent extends Component {
   render() {
     return (
         <View style={styles.container}>
+            <TouchableOpacity onPress={() => {this.props.navigation.navigate('Splash')}}>
+                <Image source={require('../assets/glasses.png')} />
+            </TouchableOpacity>
             <Text style = {styles.subText}>What time is dinner?</Text>
+
+            <View style={{height: "50%"}}>
             {
             this.state.locationResult === null ?
             <Text>Finding your current location...</Text> :
@@ -82,6 +82,7 @@ export default class AddNewEvent extends Component {
                 onRegionChange={this._handleMapRegionChange}
                 />
             }
+            </View>
         </View>
     );
   }

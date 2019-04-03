@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { StyleSheet, Text, View, Image, FlatList, Button, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, Image, FlatList, Button, TouchableOpacity, ScrollView } from 'react-native'
 
 import firebase from 'firebase';
 const firebaseConfig = {
@@ -23,7 +23,8 @@ export default class FlatlistDemo extends React.Component {
             hasData: false
         }
     }
-
+    month = async()=> {
+    }
     async getPodCastData() {
         let response = await fetch("https://randomuser.me/api/?seed=${seed}&page=${page}&results=20")
         let extractedJson = await response.json()
@@ -118,16 +119,70 @@ export default class FlatlistDemo extends React.Component {
             />
         );
     };
+    //onPress={this.login.bind(this)} 
     render() {
-
-
         if (this.state.hasData == true) {
             console.log("entered render")
             return (
                 <View style={styles.container}>
+                    <ScrollView style={{paddingHorizontal:'3%', paddingTop:'3%', paddingBottom:'3%'}} horizontal = {true}>
                         <TouchableOpacity onPress={() => {this.props.navigation.navigate('AddNewEvent')}}>
-                                <Image source={require('../assets/addnewevent.png')} />
-                            </TouchableOpacity>
+                            <Text style = {{color:'lightgrey'}}>January</Text>
+                        </TouchableOpacity>
+                        <Text>     </Text>
+                        <TouchableOpacity onPress={() => {this.props.navigation.navigate('AddNewEvent')}}>
+                            <Text style = {{color:'lightgrey'}}>Febuary</Text>
+                        </TouchableOpacity>
+                        <Text>     </Text>
+                        <TouchableOpacity onPress={() => {this.props.navigation.navigate('AddNewEvent')}}>
+                            <Text style = {{color:'lightgrey'}}>March</Text>
+                        </TouchableOpacity>
+                        <Text>     </Text>
+                        <TouchableOpacity onPress={() => {this.props.navigation.navigate('AddNewEvent')}}>
+                            <Text style = {{color:'lightgrey'}}>April</Text>
+                        </TouchableOpacity>
+                        <Text>     </Text>
+                        <TouchableOpacity onPress={() => {this.props.navigation.navigate('AddNewEvent')}}>
+                            <Text style = {{color:'lightgrey'}}>May</Text>
+                        </TouchableOpacity>
+                        <Text>     </Text>
+                        <TouchableOpacity onPress={() => {this.props.navigation.navigate('AddNewEvent')}}>
+                            <Text style = {{color:'lightgrey'}}>June</Text>
+                        </TouchableOpacity>
+                        <Text>     </Text>
+                        <TouchableOpacity onPress={() => {this.props.navigation.navigate('AddNewEvent')}}>
+                            <Text style = {{color:'lightgrey'}}>July</Text>
+                        </TouchableOpacity>
+                        <Text>     </Text>
+                        <TouchableOpacity onPress={() => {this.props.navigation.navigate('AddNewEvent')}}>
+                            <Text style = {{color:'lightgrey'}}>August</Text>
+                        </TouchableOpacity>
+                        <Text>     </Text>
+                        <TouchableOpacity onPress={() => {this.props.navigation.navigate('AddNewEvent')}}>
+                            <Text style = {{color:'lightgrey'}}>September</Text>
+                        </TouchableOpacity>
+                        <Text>     </Text>
+                        <TouchableOpacity onPress={() => {this.props.navigation.navigate('AddNewEvent')}}>
+                            <Text style = {{color:'lightgrey'}}>October</Text>
+                        </TouchableOpacity>
+                        <Text>     </Text>
+                        <TouchableOpacity onPress={() => {this.props.navigation.navigate('AddNewEvent')}}>
+                            <Text style = {{color:'lightgrey'}}>November</Text>
+                        </TouchableOpacity>
+                        <Text>     </Text>
+                        <TouchableOpacity onPress={() => {this.props.navigation.navigate('AddNewEvent')}}>
+                            <Text style = {{color:'lightgrey'}}>December</Text>
+                        </TouchableOpacity>
+                        <Text>     </Text>
+                    </ScrollView>
+                    <View style={{ height: 1, width: "90%", backgroundColor: "#CED0CE", marginLeft: "5%" }} />
+
+                    <TouchableOpacity style = {{paddingTop:'5%', paddingBottom:'5%', alignSelf:'center'}} 
+                        onPress={() => {this.props.navigation.navigate('AddNewEvent')}}>
+                        <Image source={require('../assets/addnewevent.png')} />
+                    </TouchableOpacity>
+
+                    <View style={{ height: 1, width: "90%", backgroundColor: "#CED0CE", marginLeft: "5%" }} />
                     <FlatList
                         style={styles.ScollablePodCasts}
                         data={this.state.eventsData}
