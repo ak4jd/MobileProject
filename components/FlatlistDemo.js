@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { StyleSheet, Text, View, Image, FlatList, Button, TouchableOpacity, ScrollView } from 'react-native'
-
+import { StyleSheet, Text, View, Image, FlatList, Button, TouchableOpacity,ScrollView  } from 'react-native'
+import InvitationCard from './InvitationCard';
 import firebase from 'firebase';
 const firebaseConfig = {
     apiKey: "AIzaSyD50J9Y7FH9l2tfwZ_qOJCCjnjpRBaFrR4",
@@ -16,11 +16,12 @@ export default class FlatlistDemo extends React.Component {
 
     constructor() {
         super()
-        this.readUserData = this.readUserData.bind(this)
         this.state = {
-            podCastList: null,
             eventsData: null,
-            hasData: false
+            hasData: false,
+            invitesData:null,
+            inviteKey:null,
+            hasInviteData: false,
         }
     }
     month = async()=> {
@@ -39,29 +40,36 @@ export default class FlatlistDemo extends React.Component {
         this.readUserData()
     }
 
-
+  
     readUserData() {
        console.log("readUserData Fired")
-
+       let currentContext = this
         this.database = firebase.database();
         firebase.database().ref('events/').on("value", snapshot => {
-            this.setState({ eventsData: snapshot.val(), hasData: true })
-            //console.log(this.state.eventsData)
+            this.setState({ eventsData: Object.values(snapshot.val()), hasData: true, })
+            
+        })
+
+        firebase.database().ref('invites/').on("value", snapshot => {
+            currentContext.setState({ invitesData:  snapshot.val() == null ? null : Object.values(snapshot.val()), hasInviteData: snapshot.val() == null ? false : true, inviteKey: snapshot.val() == null ? null : Object.keys(snapshot.val())[0] })
+            console.log(snapshot.val())
+            //this.forceUpdate();
         })
     }
+    
     keyExtractor(item) {
         return item.name.toString()
     }
 
     renderRow({ item }) {
-        console.log(item)
+        console.log(item.name);
         return (
             <View style={styles.card}>
-                <View style={styles.topContainer}>
+                <View style={{flex:1,flexDirection:'row'}}>
                     <Image style={styles.image} source={{ uri: item.photo }} />
                     <View style={{ marginTop: '3%', flex: 2 }}>
                         <Text style={styles.text}>{item.name}</Text>
-                        <Text style={styles.text}>{item.date}</Text>
+                        <Text style={styles.text}>{item.date.month + " " + item.date.day + " " + item.date.time}</Text>
                     </View>
                     <View style={{ flex: .75, flexDirection: 'row'}}>
                         <TouchableOpacity style ={{marginTop:'40%'}} onPress={() => {this.props.navigation.navigate('AddNewEvent')}}>
@@ -122,9 +130,14 @@ export default class FlatlistDemo extends React.Component {
     //onPress={this.login.bind(this)} 
     render() {
         if (this.state.hasData == true) {
-            console.log("entered render")
             return (
                 <View style={styles.container}>
+
+                    <View style = {{ flex: 1,}}>
+                        {this.state.hasInviteData == true ? (
+                        <InvitationCard inviteObj = {this.state.invitesData[0]} inviteKey = {this.state.inviteKey} >
+                        </InvitationCard> ) : <View></View>
+                    }
                     <ScrollView style={{paddingHorizontal:'3%', paddingTop:'3%', paddingBottom:'3%'}} horizontal = {true}>
                         <TouchableOpacity onPress={() => {this.props.navigation.navigate('AddNewEvent')}}>
                             <Text style = {{color:'lightgrey'}}>January</Text>
@@ -184,13 +197,14 @@ export default class FlatlistDemo extends React.Component {
 
                     <View style={{ height: 1, width: "90%", backgroundColor: "#CED0CE", marginLeft: "5%" }} />
                     <FlatList
-                        style={styles.ScollablePodCasts}
+                        style={{}}
                         data={this.state.eventsData}
                         renderItem={this.renderRow}
                         keyExtractor={this.keyExtractor}
                         ItemSeparatorComponent={this.renderSeparator}
                     />
                 </View>
+            </View>
             )
         } else {
             return (<View style={{ flex: 1 }} />)
