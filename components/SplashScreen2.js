@@ -39,8 +39,8 @@ export default class SplashScreen extends React.Component {
           alert(`Facebook Login Error: ${message}`);
         }
     }
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state={
             /*current state of the icons image1 is the man, image2 is the woman
             image3 is the woman with the glasses, timer is to have them
