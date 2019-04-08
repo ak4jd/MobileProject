@@ -64,11 +64,11 @@ export default class FlatlistDemo extends React.Component {
                         <Text style={styles.text}>{item.name}</Text>
                         <Text style={styles.text}>{item.date.month + " " + item.date.day + " " + item.date.time}</Text>
                     </View>
-                    <View style={{ flex: .75, flexDirection: 'row'}}>
-                        <TouchableOpacity style ={{marginTop:'40%'}} onPress={() => {this.props.navigation.navigate('AddNewEvent')}}>
+                    <View style={{ flex: .75, flexDirection: 'row', backgroundColor: 'white'}}>
+                        <TouchableOpacity style ={{marginTop:'10%'}} onPress={() => {this.props.navigation.navigate('AddNewEvent')}}>
                                 <Image source={require('../assets/call.png')} />
                         </TouchableOpacity>
-                        <TouchableOpacity style ={{marginTop:'40%', marginLeft: '20%'}} onPress={() => {this.props.navigation.navigate('AddNewEvent')}}>
+                        <TouchableOpacity style ={{marginTop:'10%', marginLeft: '10%'}} onPress={() => {this.props.navigation.navigate('AddNewEvent')}}>
                                 <Image source={require('../assets/email.png')} />
                         </TouchableOpacity>
 
